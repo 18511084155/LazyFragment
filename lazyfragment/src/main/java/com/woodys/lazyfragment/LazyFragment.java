@@ -1,6 +1,7 @@
 package com.woodys.lazyfragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,15 @@ public abstract class LazyFragment extends BaseFragment {
             onCreateViewLazy(savedInstanceState);
             isInit = true;
         }
+    }
+    @Override
+    public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     protected abstract View onCreateLazyoadingView();
