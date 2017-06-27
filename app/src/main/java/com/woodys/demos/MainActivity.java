@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentList = new ArrayList<>();
         fragmentList.add(MoreFragment.newInstance(1,false));
         fragmentList.add(MoreFragment.newInstance(2,true));
-        fragmentList.add(MoreFragment.newInstance(3,true));
-        fragmentList.add(MoreFragment.newInstance(4,true));
+        fragmentList.add(MoreFragment.newInstance(3,false));
+        fragmentList.add(MoreFragment.newInstance(4,false));
         fragmentList.add(MoreFragment.newInstance(5,true));
-        fragmentList.add(MoreFragment.newInstance(6,true));
+        fragmentList.add(MoreFragment.newInstance(6,false));
         fragmentList.add(MoreFragment.newInstance(7,true));
         initFragments(fragmentList.toArray(new Fragment[7]),new String[]{"条目1","条目2","条目3","条目4","条目5","条目6","条目7"});
     }
