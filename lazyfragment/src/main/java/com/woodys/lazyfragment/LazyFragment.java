@@ -28,13 +28,14 @@ public abstract class LazyFragment extends BaseFragment {
     private boolean isInit = false;//真正要显示的View是否已经被初始化（正常加载）
     private Bundle savedInstanceState;
     public static final String INTENT_BOOLEAN_LAZYLOAD = "intent_boolean_lazyLoad";
+    private boolean isVisibleToUser = false;
     private boolean isLazyLoad = true;
     private FrameLayout layout;
     private boolean isStart = false;//是否处于可见状态，in the screen
 
     @Override
     protected final void onCreateView(Bundle savedInstanceState) {
-        if (DEBUG) Log.d(TAG, "onCreateView() : " + "getUserVisibleHint():" + getUserVisibleHint());
+        if (DEBUG) Log.d(TAG, "onCreateView() : " + "isVisibleToUser:" + isVisibleToUser);
         super.onCreateView(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -42,8 +43,8 @@ public abstract class LazyFragment extends BaseFragment {
         }
         //判断是否懒加载
         if (isLazyLoad) {
-            //一旦isVisibleToUser==true即可对真正需要的显示内容进行加载
-            if (getUserVisibleHint() && !isInit) {
+            //一旦isVisibleToUser==true即可对真正需要的显示内容进行加载(注意：在FragmentStatePagerAdapter里面getUserVisibleHint()获取会出问题)
+            if (isVisibleToUser && !isInit) {
                 this.savedInstanceState = savedInstanceState;
                 onCreateViewLazy(savedInstanceState);
                 isInit = true;
@@ -78,7 +79,7 @@ public abstract class LazyFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (DEBUG) Log.d(TAG, "setUserVisibleHint() called with: " + "isVisibleToUser = [" + isVisibleToUser + "]");
         //一旦isVisibleToUser==true即可进行对真正需要的显示内容的加载
-
+        this.isVisibleToUser = isVisibleToUser;
         //可见，但还没被初始化
         if (isVisibleToUser && !isInit && getContentView() != null) {
             onCreateViewLazy(savedInstanceState);
@@ -201,5 +202,6 @@ public abstract class LazyFragment extends BaseFragment {
             onDestroyViewLazy();
         }
         isInit = false;
+        isVisibleToUser = false;
     }
 }
